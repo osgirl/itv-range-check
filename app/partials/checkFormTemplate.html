@@ -1,0 +1,45 @@
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label for="inputCity" class="col-xs-2 control-label">Miejscowość</label>
+
+        <div class="col-xs-9">
+            <select class="form-control" id="selectCity" placeholder="City" ng-model="selectedFilter.city" ng-change="cleanSelection()">
+                <option ng-repeat="city in database.cities">{{city}}</option>
+            </select>
+        </div>
+        <div class="col-xs-1 tick-sign" ng-show="result.cityTickVisible">✓</div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputStreet" class="col-xs-2 control-label">Ulica</label>
+
+        <div class="col-xs-9">
+            <autocomplete ng-model="selectedFilter.street" data="database.streets[selectedFilter.city]" on-type="checkStreet" on-select="streetSelected" attr-placeholder="nazwa ulicy" ng-change="checkAvailability(selectedFilter)"></autocomplete>
+            <!-- <input type="text" class="form-control" id="inputStreet" placeholder="Street" ng-model="selectedFilter.street"> -->
+        </div>
+        <div class="col-xs-1 tick-sign" ng-show="result.streetTickVisible">✓</div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputStreetNumber" class="col-xs-2 control-label">Numer</label>
+
+        <div class="col-xs-9">
+            <input input-value="selectedFilter.number" input-name="selectedFilter.number" type="text" class="form-control" id="inputStreetNumber" placeholder="numer ulicy" ng-model="selectedFilter.number" ng-change="checkAvailability(selectedFilter)" number-only-input/>
+        </div>
+        <div class="col-xs-1 tick-sign" ng-show="result.numberTickVisible">✓</div>
+    </div>
+<br/><br/>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-lg btn-danger" ng-hide="result.available" ng-click="checkAvailability(selectedFilter)">Usługi są niedostępne :-(</button>
+            <button type="submit" class="btn btn-lg btn-success" ng-show="result.available" ng-click="checkAvailability(selectedFilter)">Usługi są dostępne</button>
+            <br/>
+            <br/>
+            <div ng-show="result.available"><h3>Dostępne usługi: </h3>
+                <ul>
+                    <li ng-repeat="item in services">{{item}}</li>
+                </ul></div>
+        </div>
+
+    </div>
+</form>
